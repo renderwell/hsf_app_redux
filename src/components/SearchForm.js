@@ -2,74 +2,46 @@ import React, { Component } from 'react'
 import SelectField from './SelectField'
 
 export default class SearchForm extends Component {
+  componentDidMount() {
+    console.log('SearchForm mounted');  
+  }
 
-  handleChange = (event) => {
-    const el = event.target;
-    const selected_value = el.value;
-    const select_id = el.id;
-
-    const { store } = this.context;
-    const state = store.getState();
-
-    let category_selected = '';
-
-    switch (select_id) {
-      case "select-1":
-        category_selected = 'country';
-        break;
-      case "select-2":
-        category_selected = 'region';
-        break;
-      case "select-3":
-        category_selected = 'county';
-        break;
-      case "select-4":
-        category_selected = 'town';
-        break;
-    }
-
-    store.dispatch({ type: 'FILTER', category: category_selected, filter: selected_value });
+  componentWillUnmount() {
+    console.log('SearchForm will unmount');  
   }
 
   render () {
-    // Get the store from the context to subscribe to the 
-    // store updates and dispatch actions 
-    // Container components "read the store from the context"
-    const { store } = this.context;
-    const state = store.getState();
-
-    console.log('In SearchForm render method');  
-    console.log('SearchForm - NEW STATE', state);   
+    console.log('SearchForm::render');  
+    // console.log('SearchForm - NEW STATE', state);   
 
     return (
       <div className="search-form">
         <SelectField 
-            options={state.filters['country']} 
+            options={this.props.filters['country']} 
             selectId="select-1" 
-            handleChange={this.handleChange} 
-            visible={state.visible.country} />
+            handleChange={this.props.handleChange} 
+            visible={this.props.visible.country} />
 
         <SelectField 
-            options={state.filters['region']} 
+            options={this.props.filters['region']} 
             selectId="select-2" 
-            handleChange={this.handleChange}
-            visible={state.visible.region} />
+            handleChange={this.props.handleChange}
+            visible={this.props.visible.region} />
 
         <SelectField 
-            options={state.filters['county']} 
+            options={this.props.filters['county']} 
             selectId="select-3" 
-            handleChange={this.handleChange}
-            visible={state.visible.county} />
+            handleChange={this.props.handleChange}
+            visible={this.props.visible.county} />
 
         <SelectField 
-            options={state.filters['town']} 
+            options={this.props.filters['town']} 
             selectId="select-4" 
-            handleChange={this.handleChange}
-            visible={state.visible.town} />
+            handleChange={this.props.handleChange}
+            visible={this.props.visible.town} />
       </div>
     )
   }
-
 }
 
 // Component specifies the context types, to be able 
